@@ -1,0 +1,29 @@
+﻿@page "{id:short}"
+@model FUNewsManagementWebRazorPage.Pages.SystemAccounts.EditModel
+@{
+    ViewData["Title"] = "Edit Account";
+}
+
+<h1>Edit Account</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Account.AccountId" />
+    <div class="form-group">
+        <label asp-for="Account.AccountName"></label>
+        <input asp-for="Account.AccountName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Account.AccountEmail"></label>
+        <input asp-for="Account.AccountEmail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Account.AccountPassword"></label>
+        <input asp-for="Account.AccountPassword" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Account.AccountRole"></label>
+        <input asp-for="Account.AccountRole" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

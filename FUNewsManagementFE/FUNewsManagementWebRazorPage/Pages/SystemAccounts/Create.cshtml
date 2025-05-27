@@ -1,0 +1,32 @@
+﻿@page
+@model FUNewsManagementWebRazorPage.Pages.SystemAccounts.CreateModel
+@{
+    ViewData["Title"] = "Create Account";
+}
+
+<h1>Create System Account</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="NewAccount.AccountId"></label>
+        <input asp-for="NewAccount.AccountId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NewAccount.AccountName"></label>
+        <input asp-for="NewAccount.AccountName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NewAccount.AccountEmail"></label>
+        <input asp-for="NewAccount.AccountEmail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NewAccount.AccountPassword"></label>
+        <input asp-for="NewAccount.AccountPassword" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="NewAccount.AccountRole"></label>
+        <input asp-for="NewAccount.AccountRole" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-success">Create</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>
