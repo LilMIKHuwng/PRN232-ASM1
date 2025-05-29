@@ -222,6 +222,42 @@ namespace Services.NewsArticleServices
 			return true;
 		}
 
+
+		public async Task<List<NewsArticleDto>> GetStatisticsByPeriodAsync(DateTime startDate, DateTime endDate)
+		{
+			var articles = await _unitOfWork.NewsArticles
+				.Query()
+				.Include(a => a.Category)
+				.Include(a => a.Tags)
+				.Where(a => a.CreatedDate.HasValue &&
+							a.CreatedDate.Value.Date >= startDate.Date &&
+							a.CreatedDate.Value.Date <= endDate.Date)
+				.OrderByDescending(a => a.CreatedDate)
+				.ToListAsync();
+
+			return articles.Select(article => new NewsArticleDto
+			{
+				NewsArticleId = article.NewsArticleId,
+				NewsTitle = article.NewsTitle,
+				Headline = article.Headline,
+				CreatedDate = article.CreatedDate,
+				NewsContent = article.NewsContent,
+				NewsSource = article.NewsSource,
+				CategoryId = article.CategoryId,
+				NewsStatus = article.NewsStatus,
+				CreatedById = article.CreatedById,
+				UpdatedById = article.UpdatedById,
+				ModifiedDate = article.ModifiedDate,
+				Tags = article.Tags?.Select(tag => new TagDto
+				{
+					TagId = tag.TagId,
+					TagName = tag.TagName,
+					Note = tag.Note
+				}).ToList() ?? new List<TagDto>()
+			}).ToList();
+		}
+
+
 	}
 
 

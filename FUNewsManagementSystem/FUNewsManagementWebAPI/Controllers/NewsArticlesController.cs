@@ -61,6 +61,19 @@ namespace FUNewsManagementWebAPI.Controllers
                 ? Ok(new ApiResponse<string>(true, "Article deleted"))
                 : NotFound(new ApiResponse<string>(false, "Article not found"));
         }
-    }
+
+		[HttpGet("statistics")]
+		public async Task<IActionResult> GetStatisticsByPeriod([FromQuery] DateTime startDate, [FromQuery] DateTime endDate)
+		{
+			if (startDate > endDate)
+			{
+				return BadRequest(new ApiResponse<string>(false, "StartDate must be earlier than EndDate"));
+			}
+
+			var statistics = await _service.GetStatisticsByPeriodAsync(startDate, endDate);
+
+			return Ok(new ApiResponse<List<NewsArticleDto>>(true, "Statistics retrieved successfully", statistics));
+		}
+	}
 
 }

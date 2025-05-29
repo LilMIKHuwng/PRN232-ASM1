@@ -1,0 +1,73 @@
+﻿@page
+@model FUNewsManagementWebRazorPage.Pages.SystemAccounts.NewsStatisticsModel
+@{
+    ViewData["Title"] = "News Articles Statistics";
+}
+
+<h1>News Articles Statistics</h1>
+
+<form method="post" class="form-inline mb-3">
+    <label for="StartDate">Start Date:</label>
+    <input type="date" id="StartDate" asp-for="StartDate" class="form-control mx-2" />
+
+    <label for="EndDate">End Date:</label>
+    <input type="date" id="EndDate" asp-for="EndDate" class="form-control mx-2" />
+
+    <button type="submit" class="btn btn-primary">Get Statistics</button>
+</form>
+
+@if (Model.ErrorMessage != null)
+{
+    <div class="alert alert-danger">@Model.ErrorMessage</div>
+}
+
+@if (Model.Articles != null && Model.Articles.Count > 0)
+{
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Headline</th>
+                <th>Created Date</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>Tags</th>
+            </tr>
+        </thead>
+        <tbody id="tableSta">
+            @foreach (var article in Model.Articles)
+            {
+                <tr>
+                    <td>@article.NewsTitle</td>
+                    <td>@article.Headline</td>
+                    <td>@article.CreatedDate?.ToString("yyyy-MM-dd")</td>
+                    <td>@article.NewsSource</td>
+                    <td>@(article.NewsStatus == true ? "Published" : "Draft")</td>
+                    <td>
+                        @if (article.Tags != null && article.Tags.Count > 0)
+                        {
+                            <ul>
+                                @foreach (var tag in article.Tags)
+                                {
+                                    <li>@tag.TagName</li>
+                                }
+                            </ul>
+                        }
+                        else
+                        {
+                            <em>No tags</em>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else if (Model.StartDate != null && Model.EndDate != null)
+{
+    <div class="alert alert-info">No articles found in this period.</div>
+}
+
+
+<script src="~/js/pagingstatistics.js"></script>
+

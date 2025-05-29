@@ -14,5 +14,8 @@ namespace Services.NewsArticleServices
 		Task<NewsArticleDto> AddAsync(NewsArticleCreateDto dto);
 		Task<NewsArticleDto?> UpdateAsync(NewsArticleUpdateDto dto);
 		Task<bool> DeleteAsync(string id);
+
+		// NEW METHOD
+		Task<List<NewsArticleDto>> GetStatisticsByPeriodAsync(DateTime startDate, DateTime endDate);
 	}
 }
