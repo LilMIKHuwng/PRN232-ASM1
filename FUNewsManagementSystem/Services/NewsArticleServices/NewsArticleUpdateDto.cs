@@ -16,5 +16,7 @@ namespace Services.NewsArticleServices
         public short? CategoryId { get; set; }
         public bool? NewsStatus { get; set; }
         public short? UpdatedById { get; set; }
-    }
+
+		public List<int> Tags { get; set; }
+	}
 }

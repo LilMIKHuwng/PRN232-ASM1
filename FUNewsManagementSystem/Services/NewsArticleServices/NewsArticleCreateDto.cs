@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Services.TagServices;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,5 +17,7 @@ namespace Services.NewsArticleServices
         public short? CategoryId { get; set; }
         public bool? NewsStatus { get; set; }
         public short? CreatedById { get; set; }
-    }
+
+		public List<int> Tags { get; set; }
+	}
 }

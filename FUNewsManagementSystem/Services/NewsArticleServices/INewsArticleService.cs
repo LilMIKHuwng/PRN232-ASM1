@@ -9,10 +9,10 @@ namespace Services.NewsArticleServices
 {
     public interface INewsArticleService
     {
-        Task<List<NewsArticle>> GetAllAsync(string? search);
-        Task<NewsArticle?> GetByIdAsync(string id);
-        Task<NewsArticle> AddAsync(NewsArticleCreateDto dto);
-        Task<bool> UpdateAsync(NewsArticleUpdateDto dto);
-        Task<bool> DeleteAsync(string id);
-    }
+		Task<List<NewsArticleDto>> GetAllAsync(string? search);
+		Task<NewsArticleDto?> GetByIdAsync(string id);
+		Task<NewsArticleDto> AddAsync(NewsArticleCreateDto dto);
+		Task<NewsArticleDto?> UpdateAsync(NewsArticleUpdateDto dto);
+		Task<bool> DeleteAsync(string id);
+	}
 }

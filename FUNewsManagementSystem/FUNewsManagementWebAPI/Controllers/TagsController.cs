@@ -20,7 +20,7 @@ namespace FUNewsManagementWebAPI.Controllers
         public async Task<IActionResult> GetAll([FromQuery] string? search)
         {
             var tags = await _service.GetAllAsync(search);
-            return Ok(new ApiResponse<List<Tag>>(true, "Tag list retrieved successfully.", tags));
+            return Ok(new ApiResponse<List<TagDto>>(true, "Tag list retrieved successfully.", tags));
         }
 
         [HttpGet("{id}")]
@@ -29,7 +29,7 @@ namespace FUNewsManagementWebAPI.Controllers
             var tag = await _service.GetByIdAsync(id);
             return tag == null
                 ? NotFound(new ApiResponse<string>(false, "Tag not found."))
-                : Ok(new ApiResponse<Tag>(true, "Tag retrieved successfully.", tag));
+                : Ok(new ApiResponse<TagDto>(true, "Tag retrieved successfully.", tag));
         }
 
         [HttpPost]
@@ -37,7 +37,7 @@ namespace FUNewsManagementWebAPI.Controllers
         {
             var created = await _service.AddAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = created.TagId },
-                new ApiResponse<Tag>(true, "Tag created successfully.", created));
+                new ApiResponse<TagDto>(true, "Tag created successfully.", created));
         }
 
         [HttpPut]

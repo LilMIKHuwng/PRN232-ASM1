@@ -20,7 +20,7 @@ namespace FUNewsManagementWebAPI.Controllers
         public async Task<IActionResult> GetAll([FromQuery] string? search)
         {
             var articles = await _service.GetAllAsync(search);
-            return Ok(new ApiResponse<List<NewsArticle>>(true, "Articles retrieved successfully", articles));
+            return Ok(new ApiResponse<List<NewsArticleDto>>(true, "Articles retrieved successfully", articles));
         }
 
         [HttpGet("{id}")]
@@ -29,7 +29,7 @@ namespace FUNewsManagementWebAPI.Controllers
             var article = await _service.GetByIdAsync(id);
             return article == null
                 ? NotFound(new ApiResponse<string>(false, "Article not found"))
-                : Ok(new ApiResponse<NewsArticle>(true, "Article retrieved", article));
+                : Ok(new ApiResponse<NewsArticleDto>(true, "Article retrieved", article));
         }
 
         [HttpPost]
@@ -37,19 +37,23 @@ namespace FUNewsManagementWebAPI.Controllers
         {
             var created = await _service.AddAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = created.NewsArticleId },
-                new ApiResponse<NewsArticle>(true, "Article created", created));
+                new ApiResponse<NewsArticleDto>(true, "Article created", created));
         }
 
-        [HttpPut]
-        public async Task<IActionResult> Update([FromBody] NewsArticleUpdateDto dto)
-        {
-            var result = await _service.UpdateAsync(dto);
-            return result
-                ? Ok(new ApiResponse<string>(true, "Article updated"))
-                : NotFound(new ApiResponse<string>(false, "Article not found"));
-        }
+		[HttpPut]
+		public async Task<IActionResult> Update([FromBody] NewsArticleUpdateDto dto)
+		{
+			var result = await _service.UpdateAsync(dto);
 
-        [HttpDelete("{id}")]
+			if (result == null)
+			{
+				return NotFound(new ApiResponse<string>(false, "Article not found"));
+			}
+
+			return Ok(new ApiResponse<NewsArticleDto>(true, "Article updated", result));
+		}
+
+		[HttpDelete("{id}")]
         public async Task<IActionResult> Delete(string id)
         {
             var result = await _service.DeleteAsync(id);

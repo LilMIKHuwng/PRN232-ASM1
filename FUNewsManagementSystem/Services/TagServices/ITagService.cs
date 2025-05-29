@@ -9,9 +9,9 @@ namespace Services.TagServices
 {
     public interface ITagService
     {
-        Task<List<Tag>> GetAllAsync(string? search);
-        Task<Tag?> GetByIdAsync(int id);
-        Task<Tag> AddAsync(TagCreateDto dto);
+        Task<List<TagDto>> GetAllAsync(string? search);
+        Task<TagDto?> GetByIdAsync(int id);
+        Task<TagDto> AddAsync(TagCreateDto dto);
         Task<bool> UpdateAsync(TagUpdateDto dto);
         Task<bool> DeleteAsync(int id);
     }
