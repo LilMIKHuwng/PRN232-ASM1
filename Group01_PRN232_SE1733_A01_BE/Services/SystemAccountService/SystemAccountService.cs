@@ -87,7 +87,9 @@ namespace Services.SystemAccountService
                     Success = true,
                     Message = "Admin login successful.",
                     Role = 0,
-                    Email = adminEmail
+                    Email = adminEmail,
+                    AccountId = null
+                    
                 };
             }
 
@@ -112,7 +114,8 @@ namespace Services.SystemAccountService
                 Success = true,
                 Message = "Login successful.",
                 Role = matched.AccountRole,
-                Email = matched.AccountEmail
+                Email = matched.AccountEmail,
+                AccountId = matched.AccountId,
             };
         }
     }

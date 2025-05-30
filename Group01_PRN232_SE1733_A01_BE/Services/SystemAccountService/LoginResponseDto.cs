@@ -12,5 +12,6 @@ namespace Services.SystemAccountService
         public string Message { get; set; } = string.Empty;
         public int? Role { get; set; }
         public string? Email { get; set; }
-    }
+		public short? AccountId { get; set; }
+	}
 }

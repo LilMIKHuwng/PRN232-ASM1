@@ -1,0 +1,81 @@
+﻿@page
+@model FUNewsManagementWebRazorPage.Pages.NewsArticles.DetailModel
+@{
+    ViewData["Title"] = "News Article Details";
+}
+
+<h1>News Article Details</h1>
+<hr />
+
+<div>
+    <div>
+        <label><strong>ID:</strong></label>
+        <p class="form-control-static">@Model.Article.NewsArticleId</p>
+    </div>
+    <div>
+        <label><strong>Category ID:</strong></label>
+        <p class="form-control-static">@Model.Article.CategoryId</p>
+    </div>
+    <div>
+        <label><strong>Status:</strong></label>
+        <p class="form-control-static">@((Model.Article.NewsStatus.GetValueOrDefault()) ? "Published" : "Draft")</p>
+    </div>
+    <div>
+        <label><strong>Created By:</strong></label>
+        <p class="form-control-static">@Model.Article.CreatedById</p>
+    </div>
+    <div>
+        <label><strong>Updated By:</strong></label>
+        <p class="form-control-static">@Model.Article.UpdatedById</p>
+    </div>
+    <div>
+        <label><strong>Created Date:</strong></label>
+        <p class="form-control-static">@Model.Article.CreatedDate?.ToString("g")</p>
+    </div>
+    <div>
+        <label><strong>Modified Date:</strong></label>
+        <p class="form-control-static">@Model.Article.ModifiedDate?.ToString("g")</p>
+    </div>
+</div>
+
+<div>
+    <label><strong>Title:</strong></label>
+    <h2>@Model.Article.NewsTitle</h2>
+</div>
+
+<div>
+    <label><strong>Headline:</strong></label>
+    <p class="form-control-static">@Model.Article.Headline</p>
+</div>
+
+<div>
+    <label><strong>Source:</strong></label>
+    <p class="form-control-static">@Model.Article.NewsSource</p>
+</div>
+
+<div>
+    <label><strong>Content:</strong></label>
+    <p class="form-control-static" style="white-space: pre-wrap;">@Model.Article.NewsContent</p>
+</div>
+
+<div>
+    <label><strong>Tags:</strong></label>
+    @if (Model.Article.Tags != null && Model.Article.Tags.Any())
+    {
+        <ul>
+            @foreach (var tag in Model.Article.Tags)
+            {
+                <li>@tag.TagName</li>
+            }
+        </ul>
+    }
+    else
+    {
+        <p><em>No tags assigned.</em></p>
+    }
+</div>
+
+<div style="margin-top: 20px;">
+    <a asp-page="Edit" asp-route-id="@Model.Article.NewsArticleId" class="btn btn-primary">Edit</a>
+    <a asp-page="Index" class="btn btn-secondary">← Back to List</a>
+</div>

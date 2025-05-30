@@ -1,0 +1,93 @@
+﻿@page
+@model FUNewsManagementWebRazorPage.Pages.NewsArticles.IndexModel
+@{
+    ViewData["Title"] = "News Articles";
+}
+
+<h1 class="text-2xl font-bold mb-4">News Articles</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New Article</a>
+</p>
+
+<form method="get" class="form-inline mb-3">
+    <input type="text" name="Search" value="@Model.Search" placeholder="Search..." class="form-control mr-2" />
+    <button type="submit" class="btn btn-primary mr-2">Search</button>
+    <a asp-page="Index" class="btn btn-secondary">Reset</a>
+</form>
+
+<table class="table table-bordered" id="articlesTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>
+                <button type="button" onclick="sortTable(1)">Title ▲▼</button>
+            </th>
+            <th>Headline</th>
+            <th>Created Date</th>
+            <th>Category ID</th>
+            <th>Status</th>
+            <th>Tags</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @foreach (var article in Model.Articles)
+        {
+            <tr>
+                <td>@article.NewsArticleId</td>
+                <td>@article.NewsTitle</td>
+                <td>@article.Headline</td>
+                <td>@article.CreatedDate?.ToString("yyyy-MM-dd")</td>
+                <td>@article.CategoryId</td>
+                <td>@(article.NewsStatus == true ? "Published" : "Draft")</td>
+                <td>
+                    @if (article.Tags != null && article.Tags.Any())
+                    {
+                        <ul class="list-unstyled mb-0">
+                            @foreach (var tag in article.Tags)
+                            {
+                                <li><span class="badge bg-secondary">@tag.TagName</span></li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <em>No tags</em>
+                    }
+                </td>
+                <td>
+                    <a asp-page="Detail" asp-route-id="@article.NewsArticleId">Details</a> |
+                    <a asp-page="Edit" asp-route-id="@article.NewsArticleId">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@article.NewsArticleId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/js/pagingnews.js"></script>
+
+<script>
+    let sortDirections = { 1: true };
+
+    function sortTable(colIndex) {
+        const table = document.getElementById('articlesTable');
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.rows);
+        const ascending = sortDirections[colIndex];
+
+        rows.sort((a, b) => {
+            let aText = a.cells[colIndex].innerText.toLowerCase();
+            let bText = b.cells[colIndex].innerText.toLowerCase();
+            if (aText < bText) return ascending ? -1 : 1;
+            if (aText > bText) return ascending ? 1 : -1;
+            return 0;
+        });
+
+        while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+
+        rows.forEach(row => tbody.appendChild(row));
+        sortDirections[colIndex] = !ascending;
+    }
+</script>

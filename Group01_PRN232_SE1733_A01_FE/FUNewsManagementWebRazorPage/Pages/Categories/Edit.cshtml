@@ -1,0 +1,29 @@
+﻿@page "{id:short}"
+@model FUNewsManagementWebRazorPage.Pages.Categories.EditModel
+@{
+    ViewData["Title"] = "Edit Category";
+}
+
+<h1>Edit Category</h1>
+
+<form method="post">
+    <input type="hidden" asp-for="Category.CategoryId" />
+    <div class="form-group">
+        <label asp-for="Category.CategoryName"></label>
+        <input asp-for="Category.CategoryName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Category.CategoryDesciption"></label>
+        <input asp-for="Category.CategoryDesciption" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Category.ParentCategoryId"></label>
+        <select asp-for="Category.ParentCategoryId" asp-items="Model.ParentCategories" class="form-control"></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Category.IsActive"></label>
+        <input asp-for="Category.IsActive" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a asp-page="Index" class="btn btn-secondary">Cancel</a>
+</form>

@@ -1,0 +1,73 @@
+﻿@page
+@model FUNewsManagementWebRazorPage.Pages.Categories.IndexModel
+@{
+    ViewData["Title"] = "Categories";
+}
+
+<h1>Categories</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<form method="get" class="form-inline mb-3">
+    <input type="text" name="Search" value="@Model.Search" placeholder="Search by category name" class="form-control mr-2" />
+    <button type="submit" class="btn btn-primary mr-3">Search</button>
+    <a asp-page="Index" class="btn btn-secondary">Reset</a>
+</form>
+
+<table class="table table-bordered" id="categoriesTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th><button type="button" onclick="sortTable(1)">Category Name ▲▼</button></th>
+            <th>Description</th>
+            <th>ParentCategoryId</th>
+            <th>Active</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tableBody">
+        @foreach (var item in Model.Categories)
+        {
+            <tr>
+                <td>@item.CategoryId</td>
+                <td>@item.CategoryName</td>
+                <td>@item.CategoryDesciption</td>
+                <td>@item.ParentCategoryId</td>
+                <td>@(item.IsActive == true ? "Yes" : "No")</td>
+                <td>
+                    <a asp-page="Detail" asp-route-id="@item.CategoryId">Details</a> |
+                    <a asp-page="Edit" asp-route-id="@item.CategoryId">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@item.CategoryId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/js/pagingcates.js"></script>
+
+<script>
+    let sortDirections = { 1: true };
+
+    function sortTable(colIndex) {
+        const table = document.getElementById('categoriesTable');
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.rows);
+        const ascending = sortDirections[colIndex];
+
+        rows.sort((a, b) => {
+            let aText = a.cells[colIndex].innerText.toLowerCase();
+            let bText = b.cells[colIndex].innerText.toLowerCase();
+            if (aText < bText) return ascending ? -1 : 1;
+            if (aText > bText) return ascending ? 1 : -1;
+            return 0;
+        });
+
+        while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+
+        rows.forEach(row => tbody.appendChild(row));
+        sortDirections[colIndex] = !ascending;
+    }
+</script>

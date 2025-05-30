@@ -18,23 +18,18 @@ namespace Services.CategoryServices
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<List<Category>> GetAllActiveAsync(string? search)
-        {
-            var all = await _unitOfWork.Categories.GetAllAsync();
-            return all.Where(c =>
-                c.IsActive == true &&
-                (string.IsNullOrWhiteSpace(search) ||
-                 c.CategoryName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
-                 c.CategoryDesciption.Contains(search, StringComparison.OrdinalIgnoreCase)))
-                .ToList();
-        }
+        private CategoryDto ToDto(Category entity)
+            => new CategoryDto
+            {
+                CategoryId = entity.CategoryId,
+                CategoryName = entity.CategoryName,
+                CategoryDesciption = entity.CategoryDesciption,
+                ParentCategoryId = entity.ParentCategoryId,
+                IsActive = entity.IsActive
+            };
 
-        public async Task<Category?> GetByIdAsync(short id)
-            => await _unitOfWork.Categories.GetByIdAsync(id);
-
-        public async Task<Category> AddAsync(CategoryCreateDto dto)
-        {
-            var category = new Category
+        private Category ToEntity(CategoryCreateDto dto)
+            => new Category
             {
                 CategoryName = dto.CategoryName,
                 CategoryDesciption = dto.CategoryDesciption,
@@ -42,7 +37,33 @@ namespace Services.CategoryServices
                 IsActive = dto.IsActive ?? true
             };
 
-            return await _unitOfWork.Categories.AddAsync(category);
+        public async Task<List<CategoryDto>> GetAllActiveAsync(string? search)
+        {
+            var all = await _unitOfWork.Categories.GetAllAsync();
+            var filtered = all.Where(c =>
+                c.IsActive == true &&
+                (string.IsNullOrWhiteSpace(search) ||
+                 c.CategoryName.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                 c.CategoryDesciption.Contains(search, StringComparison.OrdinalIgnoreCase)))
+                .ToList();
+
+            return filtered.Select(ToDto).ToList();
+        }
+
+        public async Task<CategoryDto?> GetByIdAsync(short id)
+        {
+            var entity = await _unitOfWork.Categories.GetByIdAsync(id);
+            if (entity == null)
+                return null;
+
+            return ToDto(entity);
+        }
+
+        public async Task<CategoryDto> AddAsync(CategoryCreateDto dto)
+        {
+            var entity = ToEntity(dto);
+            var added = await _unitOfWork.Categories.AddAsync(entity);
+            return ToDto(added);
         }
 
         public async Task<bool> UpdateAsync(CategoryUpdateDto dto)
@@ -65,7 +86,6 @@ namespace Services.CategoryServices
             if (category == null)
                 return false;
 
-            // Check if any NewsArticles use this category
             var isInUse = await _unitOfWork.NewsArticles
                 .Query()
                 .AnyAsync(na => na.CategoryId == id);
@@ -77,5 +97,6 @@ namespace Services.CategoryServices
             return true;
         }
     }
+
 
 }

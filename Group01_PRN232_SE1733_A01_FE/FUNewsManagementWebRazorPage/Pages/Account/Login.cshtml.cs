@@ -52,12 +52,18 @@ namespace FUNewsManagementWebRazorPage.Pages.Account
                 if (loginResponse != null && loginResponse.Success)
                 {
                     var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, loginResponse.Email),
-                    new Claim(ClaimTypes.Role, loginResponse.Role.ToString())
-                };
+                    {
+                        new Claim(ClaimTypes.Name, loginResponse.Email),
+                        new Claim(ClaimTypes.Role, loginResponse.Role.ToString())
+                    };
 
-                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+					if (loginResponse.AccountId.HasValue)
+					{
+						claims.Add(new Claim("AccountId", loginResponse.AccountId.Value.ToString()));
+						Response.Cookies.Append("AccountId", loginResponse.AccountId.Value.ToString());
+					}
+
+					var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
 
                     Response.Cookies.Append("UserName", loginResponse.Email);
@@ -93,5 +99,6 @@ namespace FUNewsManagementWebRazorPage.Pages.Account
         public string Message { get; set; }
         public int Role { get; set; }
         public string Email { get; set; }
-    }
+		public short? AccountId { get; set; }
+	}
 }

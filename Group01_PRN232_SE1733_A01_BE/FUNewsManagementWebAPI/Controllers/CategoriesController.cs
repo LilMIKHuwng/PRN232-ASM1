@@ -20,7 +20,7 @@ namespace FUNewsManagementWebAPI.Controllers
         public async Task<IActionResult> GetAll([FromQuery] string? search)
         {
             var categories = await _service.GetAllActiveAsync(search);
-            return Ok(new ApiResponse<List<Category>>(true, "Category list retrieved successfully.", categories));
+            return Ok(new ApiResponse<List<CategoryDto>>(true, "Category list retrieved successfully.", categories));
         }
 
         [HttpGet("{id}")]
@@ -30,7 +30,7 @@ namespace FUNewsManagementWebAPI.Controllers
             if (category == null)
                 return NotFound(new ApiResponse<string>(false, "Category not found."));
 
-            return Ok(new ApiResponse<Category>(true, "Category retrieved successfully.", category));
+            return Ok(new ApiResponse<CategoryDto>(true, "Category retrieved successfully.", category));
         }
 
         [HttpPost]
@@ -38,7 +38,7 @@ namespace FUNewsManagementWebAPI.Controllers
         {
             var created = await _service.AddAsync(dto);
             return CreatedAtAction(nameof(GetById), new { id = created.CategoryId },
-                new ApiResponse<Category>(true, "Category created successfully.", created));
+                new ApiResponse<CategoryDto>(true, "Category created successfully.", created));
         }
 
         [HttpPut]

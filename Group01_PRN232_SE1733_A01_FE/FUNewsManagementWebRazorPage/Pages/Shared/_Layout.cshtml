@@ -26,15 +26,28 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/SystemAccounts/Index">SystemAccounts</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Categories/Index">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Tags/Index">Tags</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/NewsArticles/Index">NewsArticles</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
                 </div>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end">
                     <div class="nav-item text-nowrap">
-                        Welcome
-                        <strong>@Context.Request.Cookies["UserName"]</strong>
-                        |
+                        Welcome <strong>@Context.Request.Cookies["UserName"]</strong> |
+
+                        @if (Context.Request.Cookies["AccountId"] != null)
+                        {
+                            <a asp-page="/Account/UpdateProfile">Update Profile</a>
+                        }|
+
                         <a asp-page="/Account/Logout">Logout</a>
                     </div>
                 </div>

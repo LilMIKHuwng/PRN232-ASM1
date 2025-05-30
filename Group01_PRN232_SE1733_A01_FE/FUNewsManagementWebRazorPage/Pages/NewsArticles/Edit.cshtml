@@ -1,0 +1,70 @@
+﻿@page
+@model FUNewsManagementWebRazorPage.Pages.NewsArticles.EditModel
+@{
+    ViewData["Title"] = "Edit News Article";
+}
+
+<h1>Edit News Article</h1>
+
+<form method="post">
+    <input asp-for="Article.NewsArticleId" type="hidden" />
+
+    <table>
+        
+        <tr>
+            <td><label asp-for="Article.NewsTitle"></label></td>
+            <td><input asp-for="Article.NewsTitle" /></td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="Article.Headline"></label></td>
+            <td><input asp-for="Article.Headline" /></td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="Article.NewsContent"></label></td>
+            <td><textarea asp-for="Article.NewsContent" rows="4" cols="50"></textarea></td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="Article.NewsSource"></label></td>
+            <td><input asp-for="Article.NewsSource" /></td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="Article.CategoryId"></label></td>
+            <td>
+                <select asp-for="Article.CategoryId" asp-items="Model.Categories">
+                    <option value="">-- Select Category --</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="Article.Tags">Tags</label></td>
+            <td>
+                <select asp-for="Article.Tags" asp-items="Model.Tags" multiple="multiple" size="5"></select>
+            </td>
+        </tr>
+
+        <tr>
+            <td><label>News Status</label></td>
+            <td>
+                <input type="checkbox"
+                       name="Article.NewsStatus"
+                       value="true"
+                @(Model.Article.NewsStatus.GetValueOrDefault() ? "checked" : "") />
+                <input type="hidden" name="Article.NewsStatus" value="false" />
+            </td>
+        </tr>
+
+        <tr>
+            <td><label asp-for="Article.UpdatedById"></label></td>
+            <td><input asp-for="Article.UpdatedById" /></td>
+        </tr>
+    </table>
+
+    <br />
+    <button type="submit">Save</button>
+    <a asp-page="Index"><button type="button">Cancel</button></a>
+</form>

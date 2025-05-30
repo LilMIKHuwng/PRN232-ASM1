@@ -1,0 +1,74 @@
+﻿@page
+@model FUNewsManagementWebRazorPage.Pages.Tags.IndexModel
+@{
+    ViewData["Title"] = "Tags";
+}
+
+<h1>Tags</h1>
+
+<p>
+    <a asp-page="Create" class="btn btn-primary">Create Tag</a>
+</p>
+
+<form method="get" class="form-inline mb-3">
+    <input type="text" name="Search" value="@Model.Search" placeholder="Search by name" class="form-control mr-2" />
+    <button type="submit" class="btn btn-primary mr-3">Search</button>
+    <a asp-page="Index" class="btn btn-secondary">Reset</a>
+</form>
+
+<table class="table table-bordered" id="tagsTable">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th><button type="button" onclick="sortTable(1)">Name ▲▼</button></th>
+            <th>Note</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody id="tableTag">
+        @foreach (var item in Model.Tags)
+        {
+            <tr>
+                <td>@item.TagId</td>
+                <td>@item.TagName</td>
+                <td>@item.Note</td>
+                <td>
+                    <a asp-page="Detail" asp-route-id="@item.TagId">Details</a> |
+                    <a asp-page="Edit" asp-route-id="@item.TagId">Edit</a> |
+                    <a asp-page="Delete" asp-route-id="@item.TagId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script src="~/js/pagingtags.js"></script>
+
+<script>
+    let sortDirections = {
+        1: true // true = ascending, false = descending for Name
+    };
+
+    function sortTable(colIndex) {
+        const table = document.getElementById('tagsTable');
+        const tbody = table.tBodies[0];
+        const rows = Array.from(tbody.rows);
+        const ascending = sortDirections[colIndex];
+
+        rows.sort((a, b) => {
+            let aText = a.cells[colIndex].innerText.toLowerCase();
+            let bText = b.cells[colIndex].innerText.toLowerCase();
+
+            if (aText < bText) return ascending ? -1 : 1;
+            if (aText > bText) return ascending ? 1 : -1;
+            return 0;
+        });
+
+        while (tbody.firstChild) {
+            tbody.removeChild(tbody.firstChild);
+        }
+
+        rows.forEach(row => tbody.appendChild(row));
+        sortDirections[colIndex] = !ascending;
+    }
+</script>

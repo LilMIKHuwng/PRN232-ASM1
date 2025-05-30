@@ -44,12 +44,12 @@
                     <td>@article.NewsSource</td>
                     <td>@(article.NewsStatus == true ? "Published" : "Draft")</td>
                     <td>
-                        @if (article.Tags != null && article.Tags.Count > 0)
+                        @if (article.Tags != null && article.Tags.Any())
                         {
-                            <ul>
+                            <ul class="list-unstyled mb-0">
                                 @foreach (var tag in article.Tags)
                                 {
-                                    <li>@tag.TagName</li>
+                                    <li><span class="badge bg-secondary">@tag.TagName</span></li>
                                 }
                             </ul>
                         }

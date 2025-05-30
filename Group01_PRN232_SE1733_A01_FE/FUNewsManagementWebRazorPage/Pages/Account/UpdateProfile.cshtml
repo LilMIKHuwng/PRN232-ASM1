@@ -1,0 +1,29 @@
+﻿@page
+@model FUNewsManagementWebRazorPage.Pages.Account.UpdateProfileModel
+@{
+    ViewData["Title"] = "Update Profile";
+}
+
+<h2>Update Profile</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Account.AccountId" />
+    <div class="form-group">
+        <label asp-for="Account.AccountName"></label>
+        <input asp-for="Account.AccountName" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Account.AccountEmail"></label>
+        <input asp-for="Account.AccountEmail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Account.AccountPassword"></label>
+        <input asp-for="Account.AccountPassword" class="form-control" />
+    </div>
+    <input type="hidden" asp-for="Account.AccountRole" />
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -31,6 +31,15 @@
                             <a class="nav-link text-dark" asp-area="" asp-page="/SystemAccounts/Index">SystemAccounts</a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Categories/Index">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/Tags/Index">Tags</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/NewsArticles/Index">NewsArticles</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link text-dark" asp-page="/Privacy">Privacy</a>
                         </li>
                     </ul>
@@ -40,6 +49,10 @@
                         Welcome
                         <strong>@HttpContext.Request.Cookies["UserName"]</strong>
                         |
+                        @if (HttpContext.Request.Cookies["AccountId"] != null)
+                        {
+                            <a asp-page="/Account/UpdateProfile">Update Profile</a>
+                        }|
                         <a asp-page="/Account/Logout">Logout</a>
                     </div>
                 </div>
