@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 
 namespace FUNewsManagementWebRazorPage.Pages.NewsArticles
 {
-    [Authorize(Roles = "0")]
+    [Authorize(Roles = "0,1")]
     public class CreateModel : PageModel
     {
         private readonly HttpClient _httpClient;

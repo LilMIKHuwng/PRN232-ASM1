@@ -7,7 +7,7 @@ using static FUNewsManagementWebRazorPage.Pages.Categories.CreateModel;
 
 namespace FUNewsManagementWebRazorPage.Pages.NewsArticles
 {
-    [Authorize(Roles = "0")]
+    [Authorize(Roles = "0,1")]
     public class DetailModel : PageModel
     {
         private readonly HttpClient _httpClient;

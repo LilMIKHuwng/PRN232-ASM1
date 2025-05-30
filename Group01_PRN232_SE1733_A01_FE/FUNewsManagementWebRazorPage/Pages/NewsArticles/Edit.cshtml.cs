@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace FUNewsManagementWebRazorPage.Pages.NewsArticles
 {
-    [Authorize(Roles = "0")]
+    [Authorize(Roles = "0,1")]
     public class EditModel : PageModel
     {
         private readonly HttpClient _httpClient;
